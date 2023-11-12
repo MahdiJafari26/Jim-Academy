@@ -1,6 +1,6 @@
-package Jafari.Mahdi.JimAcademy.Repository;
+package Jafari.Mahdi.JimAcademy.Repositories;
 
-import Jafari.Mahdi.JimAcademy.Entity.Teacher;
+import Jafari.Mahdi.JimAcademy.entities.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {

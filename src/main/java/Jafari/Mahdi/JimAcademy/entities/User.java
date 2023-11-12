@@ -1,30 +1,25 @@
-package Jafari.Mahdi.JimAcademy.Entity;
+package Jafari.Mahdi.JimAcademy.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
-import java.util.List;
 
 @Entity
-public class Teacher{
-
-    private Long id;
+public class User {
+    private int id;
     private String name;
     private String lastName;
     private String information;
-    private List<Course> courseList;
     private String username;
     private String password;
 
     @Id
     @Column(name = "id", nullable = false)
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,15 +45,6 @@ public class Teacher{
 
     public void setInformation(String information) {
         this.information = information;
-    }
-
-    @ManyToMany
-    public List<Course> getCourseList() {
-        return courseList;
-    }
-
-    public void setCourseList(List<Course> courseList) {
-        this.courseList = courseList;
     }
 
     public String getUsername() {

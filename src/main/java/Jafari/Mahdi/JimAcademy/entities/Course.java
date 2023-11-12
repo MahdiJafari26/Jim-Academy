@@ -1,4 +1,4 @@
-package Jafari.Mahdi.JimAcademy.Entity;
+package Jafari.Mahdi.JimAcademy.entities;
 
 import jakarta.persistence.*;
 
@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Course {
 
-    private Long id;
+    private int id;
     private List<Student> studentList;
     private List<Teacher> teacherList;
     private String information;
@@ -16,11 +16,11 @@ public class Course {
 
     @Id
     @Column(name = "id", nullable = false)
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
