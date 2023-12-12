@@ -1,4 +1,4 @@
-package Jafari.Mahdi.JimAcademy.Entity;
+package Jafari.Mahdi.JimAcademy.entities;
 
 import jakarta.persistence.*;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 @Entity
 public class Homework {
 
-    private Long id;
+    private int id;
     private Course course;
     private Date startDate;
     private Date endDate;
@@ -16,11 +16,11 @@ public class Homework {
 
     @Id
     @Column(name = "id", nullable = false)
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,6 +1,6 @@
-package Jafari.Mahdi.JimAcademy.Repository;
+package Jafari.Mahdi.JimAcademy.repositories;
 
-import Jafari.Mahdi.JimAcademy.Entity.Homework;
+import Jafari.Mahdi.JimAcademy.entities.Homework;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HomeworkRepository extends JpaRepository<Homework, Long> {

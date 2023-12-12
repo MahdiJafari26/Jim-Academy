@@ -1,0 +1,51 @@
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/theme/js/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/theme/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/theme/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/theme/css/MainTheme.css}">
+    <link rel="stylesheet" th:href="@{/fonts/Vazir.ttf}">
+    <title>[[${title}]]</title>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .column {
+            width: 600px;
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body class="page">
+
+    <div class="container">
+        <div class="column">
+            <h2>Column 1</h2>
+            <p>This is the content of the first column. You can add text, images, or any other elements here.</p>
+        </div>
+
+        <div class="column">
+            <h2>Column 2</h2>
+            <p>This is the content of the second column. You can add different content here. The columns will adjust
+                based on the screen size.</p>
+        </div>
+    </div>
+
+
+    <div th:if="${toast != null}">
+        <div th:insert="~{fragments/webToast :: toast}"></div>
+    </div>
+
+
+</body>
+</html>
