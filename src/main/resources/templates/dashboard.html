@@ -9,36 +9,50 @@
     <title>[[${title}]]</title>
     <style>
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 20px;
+            width: 80%;
+            margin: 0 auto;
         }
 
-        .column {
-            width: 600px;
-            flex: 1;
-            margin: 10px;
+        .right-div {
+            width: 28%;
+            float: right;
             padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            margin-left: 1%;
             box-sizing: border-box;
+        }
+
+        .left-div {
+            width: 70%;
+            float: right;
+            background-color: #e0e0e0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
         }
     </style>
 </head>
 <body class="page">
+<main style="max-width: 90%;">
 
-    <div class="container">
-        <div class="column">
-            <h2>Column 1</h2>
-            <p>This is the content of the first column. You can add text, images, or any other elements here.</p>
+    <div class="container block clearfix">
+
+        <div class="right-div">
+            <div th:insert="~{fragments/userInformation :: userInformation}"></div>
         </div>
 
-        <div class="column">
+        <div class="left-div">
             <h2>Column 2</h2>
             <p>This is the content of the second column. You can add different content here. The columns will adjust
                 based on the screen size.</p>
         </div>
+
+
+
     </div>
 
 
@@ -46,6 +60,6 @@
         <div th:insert="~{fragments/webToast :: toast}"></div>
     </div>
 
-
+</main>
 </body>
 </html>
