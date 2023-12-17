@@ -40,7 +40,7 @@ public class MainController {
         List<User> userList = userRepository.findAll();
         for (User tmpUser : userList) {
             if (user.getUsername().equals(tmpUser.getUsername()) && user.getPassword().equals(tmpUser.getPassword())) {
-                session.setAttribute("currentUser", user);
+                session.setAttribute("currentUser", tmpUser);
                 return new RedirectView("dashboard");
             }
         }
