@@ -95,6 +95,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.5.3-1</version> <!-- Replace with the version you are using -->
+        </dependency>
+
     </dependencies>
 
     <build>

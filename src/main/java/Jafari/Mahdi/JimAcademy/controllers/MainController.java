@@ -1,11 +1,13 @@
 package Jafari.Mahdi.JimAcademy.controllers;
 
+import Jafari.Mahdi.JimAcademy.MotionDetector;
 import Jafari.Mahdi.JimAcademy.carriers.WebToast;
 import Jafari.Mahdi.JimAcademy.entities.Student;
 import Jafari.Mahdi.JimAcademy.entities.User;
 import Jafari.Mahdi.JimAcademy.repositories.StudentRepository;
 import Jafari.Mahdi.JimAcademy.repositories.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import org.opencv.core.Core;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ public class MainController {
     @GetMapping("/login")
     public ModelAndView init(@ModelAttribute("map") ModelMap map, @ModelAttribute User user) {
         map.put("title", "ورود");
+        Thread thread = new Thread(() -> new MotionDetector(0));
+        thread.start();
         return new ModelAndView("login", map);
     }
 
