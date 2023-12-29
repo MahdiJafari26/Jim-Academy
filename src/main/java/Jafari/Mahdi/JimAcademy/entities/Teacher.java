@@ -2,6 +2,7 @@ package Jafari.Mahdi.JimAcademy.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Teacher extends User {
 
     private List<Course> courseList;
 
-    @ManyToMany
+    @OneToMany
     public List<Course> getCourseList() {
         return courseList;
     }

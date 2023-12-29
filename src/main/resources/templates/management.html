@@ -1,0 +1,52 @@
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/theme/js/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/theme/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/theme/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/theme/css/MainTheme.css}">
+    <link rel="stylesheet" th:href="@{/fonts/Vazir.ttf}">
+    <title>[[${title}]]</title>
+
+</head>
+<body class="page">
+<main style="max-width: 90%;">
+    <div class="block">
+        <h3>ارتقا کاربر به استاد</h3>
+
+        <form action="/process-user" method="post">
+            <label for="userSelect">کاربر مورد نظر را انتخاب کنید:</label>
+            <select id="userSelect" name="userId">
+                <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.username}"></option>
+            </select>
+
+            <button type="submit">ثبت</button>
+        </form>
+
+    </div>
+
+    <div class="block" style="margin-top: 10px;">
+        <h3>تعریف کلاس</h3>
+
+        <form th:action="@{/newCourse}" th:object="${course}" method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="نام کلاس" th:field="*{information}">
+                </div>
+            </div>
+
+            <hr class="hr-xs">
+
+            <button class="btn btn-primary btn-block" type="submit">ثبت کلاس</button>
+
+
+        </form>
+    </div>
+
+    <div th:if="${toast != null}">
+        <div th:insert="~{fragments/webToast :: toast}"></div>
+    </div>
+
+</main>
+</body>
+</html>

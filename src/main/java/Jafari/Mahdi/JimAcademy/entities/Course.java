@@ -9,7 +9,7 @@ public class Course {
 
     private int id;
     private List<Student> studentList;
-    private List<Teacher> teacherList;
+    private Teacher teacherList;
     private String information;
     private List<Exam> examList;
     private List<Homework> homeworkList;
@@ -33,12 +33,12 @@ public class Course {
         this.studentList = studentList;
     }
 
-    @ManyToMany
-    public List<Teacher> getTeacherList() {
+    @ManyToOne
+    public Teacher getTeacherList() {
         return teacherList;
     }
 
-    public void setTeacherList(List<Teacher> teacherList) {
+    public void setTeacherList(Teacher teacherList) {
         this.teacherList = teacherList;
     }
 

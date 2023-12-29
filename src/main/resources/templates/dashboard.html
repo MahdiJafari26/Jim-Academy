@@ -43,6 +43,9 @@
 
         <div class="right-div">
             <div th:insert="~{fragments/userInformation :: userInformation}"></div>
+            <div th:if="${isAdmin}">
+                <a href="dashboard/management" role="button" class="btn btn-primary btn-block">مدیریت سیستم</a>
+            </div>
         </div>
 
         <div class="left-div">
