@@ -1,10 +1,13 @@
 package Jafari.Mahdi.JimAcademy;
 
 import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MotionDetector {
@@ -78,11 +81,33 @@ public class MotionDetector {
                 }
 
                 System.out.println("Motion detected!!!");
+                saveFrame(frame);
                 noMotionDetected = false;
                 break;
             }
+
+
         }
 
+    }
+    public void saveFrame (Mat frame){
+        // Specify the directory for storing the captured frames
+//        File tempDirectory = new File(System.getProperty("java.io.tmpdir"));
+//        String outputDirectory = tempDirectory.getAbsolutePath();
+        String outputDirectory = "C:\\Users\\Mahdi\\Desktop";
+
+        // Create the directory if it doesn't exist
+        File directory = new File(outputDirectory);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Save the frame as an image in the specified directory
+        String outputFileName = "frame" + new Date().getTime() + ".jpg";
+        String outputPath = outputDirectory + File.separator + outputFileName;
+        Imgcodecs.imwrite(outputPath, frame);
+
+        System.out.println("Frame saved successfully at: " + outputPath);
     }
 
 }
