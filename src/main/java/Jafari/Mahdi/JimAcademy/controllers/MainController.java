@@ -30,14 +30,13 @@ public class MainController {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.teacherRepository=teacherRepository;
-        initialCreation();
     }
 
     @GetMapping("/login")
     public ModelAndView init(@ModelAttribute("map") ModelMap map, @ModelAttribute User user) {
         map.put("title", "ورود");
-//        Thread thread = new Thread(() -> new MotionDetector(0));
-//        thread.start();
+        initialCreation();
+
         return new ModelAndView("login", map);
     }
 
@@ -98,7 +97,7 @@ public class MainController {
         }
 
         Boolean studentExist = false;
-        for (User tmpUser : studentRepository.findAll()) {
+        for (Student tmpUser : studentRepository.findAll()) {
             if (tmpUser.getUsername().equals("mahdi"))
                 studentExist= true;
         }
@@ -107,14 +106,14 @@ public class MainController {
             mahdi.setUsername("mahdi");
             mahdi.setPassword("mahdi");
             mahdi.setInformation("دانشجوی ورودی 98");
-            mahdi.setName("مهدی");
-            mahdi.setLastName("جعفری");
+            mahdi.setName("مهدیه");
+            mahdi.setLastName("جعفریان");
             studentRepository.save(mahdi);
         }
 
 
         Boolean drJamshidiExist = false;
-        for (User tmpUser : teacherRepository.findAll()) {
+        for (Teacher tmpUser : teacherRepository.findAll()) {
             if (tmpUser.getUsername().equals("jamshidi"))
                 drJamshidiExist= true;
         }

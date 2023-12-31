@@ -13,6 +13,7 @@ import java.util.List;
 public class MotionDetector {
 
     private boolean continueDetection = true;
+    public static Boolean isActive = false;
 
     public MotionDetector(int cameraNumber) {
         while (continueDetection)
@@ -74,15 +75,18 @@ public class MotionDetector {
 
             Imgproc.dilate(thresh, thresh, new Mat(), new Point(-1, -1), 2);
             Imgproc.findContours(thresh, cnts, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+            isActive=false;
 
             for (MatOfPoint cnt : cnts) {
                 if (Imgproc.contourArea(cnt) < 500) {
+                    isActive=false;
                     continue;
                 }
 
                 System.out.println("Motion detected!!!");
                 saveFrame(frame);
                 noMotionDetected = false;
+                isActive=true;
                 break;
             }
 

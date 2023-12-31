@@ -49,9 +49,9 @@
         </div>
 
         <div class="left-div">
-            <h2>Column 2</h2>
-            <p>This is the content of the second column. You can add different content here. The columns will adjust
-                based on the screen size.</p>
+            <p><strong>آزمایشگاه سایبر فیزیک</strong></p>
+            <p>ساختمان انصاری، طبقه سوم</p>
+            <p style="color: darkred" id="statusP">وضعیت کلاس : غیرفعال - کلاس خالی</p>
         </div>
 
 
@@ -65,4 +65,27 @@
 
 </main>
 </body>
+<script>
+    setInterval(function()
+    {
+        $.ajax({
+            type:"post",
+            url:"dashboard/checkIsClassActive",
+            datatype:"html",
+            success:function(data)
+            {
+                if(data){
+                    $("#statusP").css("color" , "darkgreen");
+                    $("#statusP").text("وضعیت کلاس : فعال - حضور افراد");
+                    console.log("true");
+                }else{
+                    $("#statusP").css("color" , "darkred");
+                    $("#statusP").text("وضعیت کلاس : غیرفعال - کلاس خالی");
+                    console.log("false");
+
+                }
+            }
+        });
+    }, 500);//time in milliseconds
+</script>
 </html>
