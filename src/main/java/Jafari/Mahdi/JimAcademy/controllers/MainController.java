@@ -1,9 +1,11 @@
 package Jafari.Mahdi.JimAcademy.controllers;
 
 import Jafari.Mahdi.JimAcademy.carriers.WebToast;
+import Jafari.Mahdi.JimAcademy.entities.Course;
 import Jafari.Mahdi.JimAcademy.entities.Student;
 import Jafari.Mahdi.JimAcademy.entities.Teacher;
 import Jafari.Mahdi.JimAcademy.entities.User;
+import Jafari.Mahdi.JimAcademy.repositories.CourseRepository;
 import Jafari.Mahdi.JimAcademy.repositories.StudentRepository;
 import Jafari.Mahdi.JimAcademy.repositories.TeacherRepository;
 import Jafari.Mahdi.JimAcademy.repositories.UserRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,11 +28,13 @@ public class MainController {
     final UserRepository userRepository;
     final StudentRepository studentRepository;
     final TeacherRepository teacherRepository;
+    final CourseRepository courseRepository;
 
-    public MainController(StudentRepository studentRepository, UserRepository userRepository, TeacherRepository teacherRepository) {
+    public MainController(StudentRepository studentRepository, UserRepository userRepository, TeacherRepository teacherRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
-        this.teacherRepository=teacherRepository;
+        this.teacherRepository = teacherRepository;
+        this.courseRepository = courseRepository;
     }
 
     @GetMapping("/login")
@@ -80,13 +85,12 @@ public class MainController {
     }
 
 
-    public void initialCreation(){
+    public void initialCreation() {
         Boolean adminExist = false;
         for (User tmpUser : userRepository.findAll()) {
-            if (tmpUser.getUsername().equals("admin"))
-                adminExist= true;
+            if (tmpUser.getUsername().equals("admin")) adminExist = true;
         }
-        if (!adminExist){
+        if (!adminExist) {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword("admin");
@@ -98,10 +102,9 @@ public class MainController {
 
         Boolean studentExist = false;
         for (Student tmpUser : studentRepository.findAll()) {
-            if (tmpUser.getUsername().equals("mahdi"))
-                studentExist= true;
+            if (tmpUser.getUsername().equals("mahdi")) studentExist = true;
         }
-        if (!studentExist){
+        if (!studentExist) {
             Student mahdi = new Student();
             mahdi.setUsername("mahdi");
             mahdi.setPassword("mahdi");
@@ -112,19 +115,35 @@ public class MainController {
         }
 
 
+        Teacher drJamshidi = new Teacher();
+        ;
         Boolean drJamshidiExist = false;
         for (Teacher tmpUser : teacherRepository.findAll()) {
-            if (tmpUser.getUsername().equals("jamshidi"))
-                drJamshidiExist= true;
+            if (tmpUser.getUsername().equals("jamshidi")) {
+                drJamshidiExist = true;
+                drJamshidi = tmpUser;
+            }
         }
-        if (!drJamshidiExist){
-            Teacher drJamshidi = new Teacher();
+        if (!drJamshidiExist) {
             drJamshidi.setUsername("jamshidi");
             drJamshidi.setPassword("jamshidi");
             drJamshidi.setInformation("هیئت علمی دانشکده مهندسی کامپیوتر");
             drJamshidi.setName("دکتر کمال");
             drJamshidi.setLastName("جمشیدی");
-            teacherRepository.save(drJamshidi);
+            drJamshidi = teacherRepository.save(drJamshidi);
+        }
+
+
+        Boolean cyberExist = false;
+        for (Course course : courseRepository.findAll()) {
+            if (course.getId() == 0) cyberExist = true;
+        }
+        if (!cyberExist) {
+            Course cyber = new Course();
+            cyber.setId(0);
+            cyber.setTeacher(drJamshidi);
+            cyber.setInformation("آزمایشگاه سایبر فیزیک");
+            courseRepository.save(cyber);
         }
     }
 }

@@ -4,6 +4,7 @@ import Jafari.Mahdi.JimAcademy.carriers.WebToast;
 import Jafari.Mahdi.JimAcademy.entities.Course;
 import Jafari.Mahdi.JimAcademy.entities.Teacher;
 import Jafari.Mahdi.JimAcademy.entities.User;
+import Jafari.Mahdi.JimAcademy.repositories.CourseRepository;
 import Jafari.Mahdi.JimAcademy.repositories.StudentRepository;
 import Jafari.Mahdi.JimAcademy.repositories.TeacherRepository;
 import Jafari.Mahdi.JimAcademy.repositories.UserRepository;
@@ -28,29 +29,34 @@ public class DashboardController {
     final UserRepository userRepository;
     final StudentRepository studentRepository;
     final TeacherRepository teacherRepository;
+    final CourseRepository courseRepository;
 
-    public DashboardController(HttpSession session, UserRepository userRepository, StudentRepository studentRepository, TeacherRepository teacheRepository) {
+    public DashboardController(HttpSession session, UserRepository userRepository, StudentRepository studentRepository, TeacherRepository teacheRepository, CourseRepository courseRepository) {
         this.session = session;
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacheRepository;
+        this.courseRepository = courseRepository;
     }
 
     @GetMapping
     public ModelAndView init(@ModelAttribute("map") ModelMap map) {
+        List<Course> courseList = courseRepository.findAll();
         return returnUserValidationModel("داشبورد", "dashboard", map);
     }
 
     @PostMapping("/checkIsClassActive")
     @ResponseBody
-    public List<Integer> checkIsClassActive() {
-        List<Integer> list= new LinkedList<>();
-        for (Integer key : ClassController.classesStatusMap.keySet()){
-            if (new Date().getTime() - ClassController.classesStatusMap.get(key).getTime() < 3000L){
-                list.add(key);
+    public Map<Integer , Boolean> checkIsClassActive() {
+        Map<Integer , Boolean> map = new HashMap<>();
+        for (Course course : courseRepository.findAll()){
+            if (ClassRestController.classesStatusMap.get(course.getId()) != null && new Date().getTime() - ClassRestController.classesStatusMap.get(course.getId()).getTime() < 3000L) {
+                map.put(course.getId() , true);
+            }else {
+                map.put(course.getId() , false);
             }
         }
-        return list;
+        return map;
     }
 
     @GetMapping("/management")
@@ -92,6 +98,7 @@ public class DashboardController {
             if (sessionUser.getId() == tmpUser.getId() && sessionUser.getUsername().equals(tmpUser.getUsername()) && sessionUser.getPassword().equals(tmpUser.getPassword())) {
                 map.put("title", title);
                 map.put("user", tmpUser);
+                map.put("courses", courseRepository.findAll());
                 if (tmpUser.getUsername().equals("admin")) map.put("isAdmin", true);
                 else map.put("isAdmin", false);
                 return new ModelAndView(viewName, map);

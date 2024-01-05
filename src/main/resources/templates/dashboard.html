@@ -34,6 +34,37 @@
             display: table;
             clear: both;
         }
+
+        /* Add some basic styling to the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Style the "Manage Class" button */
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 12px;
+            display: inline-block;
+            border-radius: 4px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body class="page">
@@ -49,11 +80,36 @@
         </div>
 
         <div class="left-div">
-            <p><strong>آزمایشگاه سایبر فیزیک</strong></p>
-            <p>ساختمان انصاری، طبقه سوم</p>
-            <p style="color: darkred" id="statusP">وضعیت کلاس : غیرفعال - کلاس خالی</p>
+            <p><strong>سامانه مرکزی مدیریت کلاس</strong></p>
+            <hr class="hr-xs" style="margin-bottom: 10px;">
+            <p style="color: darkgreen">دانشگاه اصفهان</p>
+            <p style="color: darkgreen">دانشکده مهندسی کامپیوتر</p>
         </div>
 
+
+        <table style="border: 1px;">
+            <thead>
+            <tr>
+                <th>شماره کلاس</th>
+                <th>اطلاعات کلاس</th>
+                <th>نام استاد</th>
+                <th>وضعیت</th>
+                <th>انتقال به مدیریت</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iterate over the list of students and generate table rows -->
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.id}"></td>
+                <td th:text="${course.information}"></td>
+                <td th:text="${course.teacher.name + ' ' + course.teacher.lastName}"></td>
+                <td th:id="${'courseStatus' + course.id}"></td>
+                <!-- Create a link to a student details page -->
+                <td><a class="btn btn-primary" th:href="@{/dashboard/class/{id}(id=${course.id})}"
+                       style="width: 90%">مدیریت کلاس</a></td>
+            </tr>
+            </tbody>
+        </table>
 
 
     </div>
@@ -66,23 +122,29 @@
 </main>
 </body>
 <script>
-    setInterval(function()
-    {
+    setInterval(function () {
         $.ajax({
-            type:"post",
-            url:"dashboard/checkIsClassActive",
-            datatype:"html",
-            success:function(data)
-            {
-                $.each(data , function(key) {
-                    console.log("HHH : " +  key);
+            type: "post",
+            url: "dashboard/checkIsClassActive",
+            datatype: "html",
+            success: function (data) {
+                $.each(data, function (key , value) {
+                    console.log(key + " : " + value);
+
+                    if (value) {
+                        $("#courseStatus" + key).css("color", "darkgreen");
+                        $("#courseStatus" + key).text("فعال - حضور افراد");
+                    } else {
+                        $("#courseStatus" + key).css("color", "darkred");
+                        $("#courseStatus" + key).text("غیرفعال - کلاس خالی");
+                    }
                 });
-                if(data){
-                    $("#statusP").css("color" , "darkgreen");
+                if (data) {
+                    $("#statusP").css("color", "darkgreen");
                     $("#statusP").text("وضعیت کلاس : فعال - حضور افراد");
                     console.log("true");
-                }else{
-                    $("#statusP").css("color" , "darkred");
+                } else {
+                    $("#statusP").css("color", "darkred");
                     $("#statusP").text("وضعیت کلاس : غیرفعال - کلاس خالی");
                     console.log("false");
 

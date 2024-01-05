@@ -12,21 +12,21 @@
 <body class="page">
 <main style="max-width: 90%;">
     <div class="block">
-        <h3>ارتقا کاربر به استاد</h3>
+        <h5>ارتقا کاربر به استاد</h5>
 
         <form action="makeTeacher" method="get">
             <label for="userSelect">کاربر مورد نظر را انتخاب کنید:</label>
-            <select id="userSelect" name="userId">
+            <select id="userSelect" name="userId" style="width: 400px; height: 50px; margin-top: 10px">
                 <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name + ' ' + user.lastName}"></option>
             </select>
 
-            <button type="submit">ثبت</button>
+            <button class="btn btn-primary btn-block" type="submit">ثبت</button>
         </form>
 
     </div>
 
     <div class="block" style="margin-top: 10px;">
-        <h3>تعریف کلاس</h3>
+        <h5>تعریف کلاس</h5>
 
         <form th:action="@{/newCourse}" th:object="${course}" method="post">
             <div class="form-group">
