@@ -74,6 +74,9 @@
             datatype:"html",
             success:function(data)
             {
+                $.each(data , function(key) {
+                    console.log("HHH : " +  key);
+                });
                 if(data){
                     $("#statusP").css("color" , "darkgreen");
                     $("#statusP").text("وضعیت کلاس : فعال - حضور افراد");

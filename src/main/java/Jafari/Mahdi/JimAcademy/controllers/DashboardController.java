@@ -1,6 +1,5 @@
 package Jafari.Mahdi.JimAcademy.controllers;
 
-import Jafari.Mahdi.JimAcademy.MotionDetector;
 import Jafari.Mahdi.JimAcademy.carriers.WebToast;
 import Jafari.Mahdi.JimAcademy.entities.Course;
 import Jafari.Mahdi.JimAcademy.entities.Teacher;
@@ -17,8 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -40,16 +38,19 @@ public class DashboardController {
 
     @GetMapping
     public ModelAndView init(@ModelAttribute("map") ModelMap map) {
-
-        Thread thread = new Thread(() -> new MotionDetector(0));
-        thread.start();
         return returnUserValidationModel("داشبورد", "dashboard", map);
     }
 
     @PostMapping("/checkIsClassActive")
     @ResponseBody
-    public Boolean checkIsClassActive(){
-        return MotionDetector.isActive;
+    public List<Integer> checkIsClassActive() {
+        List<Integer> list= new LinkedList<>();
+        for (Integer key : ClassController.classesStatusMap.keySet()){
+            if (new Date().getTime() - ClassController.classesStatusMap.get(key).getTime() < 3000L){
+                list.add(key);
+            }
+        }
+        return list;
     }
 
     @GetMapping("/management")
@@ -57,7 +58,7 @@ public class DashboardController {
         map.put("students", studentRepository.findAll());
         List<Teacher> teacherList = teacherRepository.findAll();
         map.put("teachers", teacherList);
-        List<User> userList=new LinkedList<>();
+        List<User> userList = new LinkedList<>();
         for (User user : userRepository.findAll()) {
             for (Teacher teacher : teacherList) {
                 if (!user.getUsername().equals(teacher.getUsername())) {
