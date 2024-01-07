@@ -136,11 +136,10 @@ public class MainController {
 
         Boolean cyberExist = false;
         for (Course course : courseRepository.findAll()) {
-            if (course.getId() == 0) cyberExist = true;
+            if (course.getInformation().equals("آزمایشگاه سایبر فیزیک")) cyberExist = true;
         }
         if (!cyberExist) {
             Course cyber = new Course();
-            cyber.setId(0);
             cyber.setTeacher(drJamshidi);
             cyber.setInformation("آزمایشگاه سایبر فیزیک");
             courseRepository.save(cyber);

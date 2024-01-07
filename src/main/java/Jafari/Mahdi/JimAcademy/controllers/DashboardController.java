@@ -47,13 +47,13 @@ public class DashboardController {
 
     @PostMapping("/checkIsClassActive")
     @ResponseBody
-    public Map<Integer , Boolean> checkIsClassActive() {
-        Map<Integer , Boolean> map = new HashMap<>();
-        for (Course course : courseRepository.findAll()){
+    public Map<Integer, Boolean> checkIsClassActive() {
+        Map<Integer, Boolean> map = new HashMap<>();
+        for (Course course : courseRepository.findAll()) {
             if (ClassRestController.classesStatusMap.get(course.getId()) != null && new Date().getTime() - ClassRestController.classesStatusMap.get(course.getId()).getTime() < 3000L) {
-                map.put(course.getId() , true);
-            }else {
-                map.put(course.getId() , false);
+                map.put(course.getId(), true);
+            } else {
+                map.put(course.getId(), false);
             }
         }
         return map;
@@ -80,7 +80,9 @@ public class DashboardController {
     public RedirectView makeTeacher(@RequestParam Long userId, RedirectAttributes attributes) {
         ModelMap map = new ModelMap();
         try {
-            userRepository.findById(userId);
+            User user = userRepository.findById(userId).get();
+            Teacher teacher = (Teacher) user;
+            teacherRepository.save(teacher);
         } catch (Exception e) {
             map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ارتقای این کاربر به وجود آمده است"));
             attributes.addFlashAttribute("map", map);
@@ -91,6 +93,34 @@ public class DashboardController {
         return new RedirectView("management");
 
     }
+
+    @PostMapping("/newCourse")
+    public ModelAndView saveNewCourse(@ModelAttribute Course course, @ModelAttribute ModelMap map) {
+        session.setAttribute("course", course);
+        map.put("teachers", teacherRepository.findAll());
+        return returnUserValidationModel("انتخاب استاد کلاس", "teacherSelectionNewCourse", map);
+    }
+
+    @GetMapping("/selectTeacher")
+    public RedirectView selectTeacher(@RequestParam Long teacherId, RedirectAttributes attributes, @ModelAttribute ModelMap map) {
+        try {
+            Course course = (Course) session.getAttribute("course");
+            Teacher teacher = teacherRepository.findById(teacherId).get();
+            course.setTeacher(teacher);
+            courseRepository.save(course);
+
+        } catch (Exception e) {
+            map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ثبت این استاد به وجود آمده است"));
+            attributes.addFlashAttribute("map", map);
+            return new RedirectView("management");
+        }
+        map.put("toast", new WebToast(WebToast.ToastType.CONFIRMATION_TYPE.getValue(), "استاد کلاس ثبت شد"));
+        attributes.addFlashAttribute("map", map);
+        return new RedirectView("/dashboard");
+
+    }
+
+
 
     public ModelAndView returnUserValidationModel(String title, String viewName, ModelMap map) {
         User sessionUser = ((User) session.getAttribute("currentUser"));

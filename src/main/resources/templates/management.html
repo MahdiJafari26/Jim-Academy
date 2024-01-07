@@ -28,7 +28,7 @@
     <div class="block" style="margin-top: 10px;">
         <h5>تعریف کلاس</h5>
 
-        <form th:action="@{/newCourse}" th:object="${course}" method="post">
+        <form th:action="newCourse" th:object="${course}" method="post">
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="نام کلاس" th:field="*{information}">

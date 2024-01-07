@@ -1,0 +1,34 @@
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/theme/js/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/theme/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/theme/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/theme/css/MainTheme.css}">
+    <link rel="stylesheet" th:href="@{/fonts/Vazir.ttf}">
+    <title>[[${title}]]</title>
+
+</head>
+<body class="page">
+<main style="max-width: 90%;">
+    <div class="block">
+        <h5>انتخاب استاد کلاس</h5>
+
+        <form action="selectTeacher" method="get">
+            <select id="teacherSelect" name="teacherId" style="width: 400px; height: 50px; margin-top: 10px">
+                <option th:each="teacher : ${teachers}" th:value="${teacher.id}" th:text="${teacher.name + ' ' + teacher.lastName}"></option>
+            </select>
+
+            <button class="btn btn-primary btn-block" type="submit">ثبت</button>
+        </form>
+
+    </div>
+
+
+    <div th:if="${toast != null}">
+        <div th:insert="~{fragments/webToast :: toast}"></div>
+    </div>
+
+</main>
+</body>
+</html>
