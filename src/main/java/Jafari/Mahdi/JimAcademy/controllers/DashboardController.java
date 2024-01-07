@@ -41,7 +41,6 @@ public class DashboardController {
 
     @GetMapping
     public ModelAndView init(@ModelAttribute("map") ModelMap map) {
-        List<Course> courseList = courseRepository.findAll();
         return returnUserValidationModel("داشبورد", "dashboard", map);
     }
 

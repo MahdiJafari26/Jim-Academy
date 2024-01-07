@@ -1,18 +1,20 @@
 package Jafari.Mahdi.JimAcademy.controllers;
 
+import Jafari.Mahdi.JimAcademy.carriers.WebToast;
+import Jafari.Mahdi.JimAcademy.entities.Course;
+import Jafari.Mahdi.JimAcademy.entities.Homework;
+import Jafari.Mahdi.JimAcademy.entities.Student;
 import Jafari.Mahdi.JimAcademy.entities.User;
-import Jafari.Mahdi.JimAcademy.repositories.CourseRepository;
-import Jafari.Mahdi.JimAcademy.repositories.StudentRepository;
-import Jafari.Mahdi.JimAcademy.repositories.TeacherRepository;
-import Jafari.Mahdi.JimAcademy.repositories.UserRepository;
+import Jafari.Mahdi.JimAcademy.repositories.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/course")
@@ -23,19 +25,45 @@ public class CourseManagementController {
     final StudentRepository studentRepository;
     final TeacherRepository teacherRepository;
     final CourseRepository courseRepository;
+    final HomeworkRepository homeworkRepository;
 
-    public CourseManagementController(HttpSession session, UserRepository userRepository, StudentRepository studentRepository, TeacherRepository teacherRepository, CourseRepository courseRepository) {
+    public CourseManagementController(HttpSession session, UserRepository userRepository, StudentRepository studentRepository, TeacherRepository teacherRepository, CourseRepository courseRepository, HomeworkRepository homeworkRepository) {
         this.session = session;
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
         this.courseRepository = courseRepository;
+        this.homeworkRepository = homeworkRepository;
     }
 
     @GetMapping("/{classNumber}")
-    public ModelAndView init(@PathVariable Long classNumber,@ModelAttribute("map") ModelMap map){
-        map.put("currentCourse" , courseRepository.findById(classNumber).get());
+    public ModelAndView init(@PathVariable Long classNumber, @ModelAttribute("map") ModelMap map, @ModelAttribute Homework homework){
+        Course currentCourse = courseRepository.findById(classNumber).get();
+        map.put("currentCourse" , currentCourse);
+        session.setAttribute("currentCourse" , currentCourse);
         return returnUserValidationModel("مدیریت کلاس", "courseManagement", map);
+    }
+
+    @PostMapping("/createNewHomework")
+    public RedirectView createNewHomework(@ModelAttribute Homework homework, RedirectAttributes attributes) {
+        ModelMap map = new ModelMap();
+        try {
+            Course currentCourse = (Course) session.getAttribute("currentCourse");
+            List<Homework> homeworkList = currentCourse.getHomeworkList();
+            homeworkList.add(homework);
+            currentCourse.setHomeworkList(homeworkList);
+            homework.setCourse(currentCourse);
+            homeworkRepository.save(homework);
+            courseRepository.save(currentCourse);
+        } catch (Exception e) {
+            map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ثبت پست به وجود آمده است"));
+            attributes.addFlashAttribute("map", map);
+            return new RedirectView("/dashboard");
+        }
+        map.put("toast", new WebToast(WebToast.ToastType.CONFIRMATION_TYPE.getValue(), "ثبت پست شما با موفقیت انجام شد"));
+        attributes.addFlashAttribute("map", map);
+        return new RedirectView("/dashboard");
+
     }
 
     public ModelAndView returnUserValidationModel(String title, String viewName, ModelMap map) {

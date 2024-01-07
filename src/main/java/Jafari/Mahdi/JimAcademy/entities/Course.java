@@ -51,7 +51,7 @@ public class Course {
         this.information = information;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<Exam> getExamList() {
         return examList;
     }
@@ -60,7 +60,7 @@ public class Course {
         this.examList = examList;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     public List<Homework> getHomeworkList() {
         return homeworkList;
     }
