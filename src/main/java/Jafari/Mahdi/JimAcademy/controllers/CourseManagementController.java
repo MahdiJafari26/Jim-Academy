@@ -35,7 +35,7 @@ public class CourseManagementController {
     @GetMapping("/{classNumber}")
     public ModelAndView init(@PathVariable Long classNumber,@ModelAttribute("map") ModelMap map){
         map.put("currentCourse" , courseRepository.findById(classNumber).get());
-        return returnUserValidationModel("داشبورد", "dashboard", map);
+        return returnUserValidationModel("مدیریت کلاس", "courseManagement", map);
     }
 
     public ModelAndView returnUserValidationModel(String title, String viewName, ModelMap map) {

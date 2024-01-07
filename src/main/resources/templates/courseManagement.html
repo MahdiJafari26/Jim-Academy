@@ -82,31 +82,26 @@
         <div class="left-div">
             <p><strong>سامانه مرکزی مدیریت کلاس</strong></p>
             <hr class="hr-xs" style="margin-bottom: 10px;">
-            <p style="color: darkgreen">دانشگاه اصفهان</p>
-            <p style="color: darkgreen">دانشکده مهندسی کامپیوتر</p>
+            <p style="color: darkgreen">مدیریت کلاس</p>
+            <p style="color: darkgreen">[[${currentCourse.information}]]</p>
         </div>
 
 
         <table style="border: 1px;">
             <thead>
             <tr>
-                <th>شماره کلاس</th>
-                <th>اطلاعات کلاس</th>
-                <th>نام استاد</th>
-                <th>وضعیت</th>
-                <th>انتقال به مدیریت</th>
+                <th>شماره تمرین</th>
+                <th>اطلاعات تمرین</th>
+                <th>تاریخ شروع</th>
+                <th>تاریخ پایان</th>
             </tr>
             </thead>
             <tbody>
-            <!-- Iterate over the list of students and generate table rows -->
-            <tr th:each="course : ${courses}">
-                <td th:text="${course.id}"></td>
-                <td th:text="${course.information}"></td>
-                <td th:text="${course.teacher.name + ' ' + course.teacher.lastName}"></td>
-                <td th:id="${'courseStatus' + course.id}"></td>
-                <!-- Create a link to a student details page -->
-                <td><a class="btn btn-primary" th:href="@{/course/{id}(id=${course.id})}"
-                       style="width: 90%">مدیریت کلاس</a></td>
+            <tr th:each="homework : ${currentCourse.homeworkList}">
+                <td th:text="${homework.id}"></td>
+                <td th:text="${homework.information}"></td>
+                <td th:text="${homework.startDate}"></td>
+                <td th:text="${homework.endDate}"></td>
             </tr>
             </tbody>
         </table>
@@ -128,7 +123,7 @@
             url: "dashboard/checkIsClassActive",
             datatype: "html",
             success: function (data) {
-                $.each(data, function (key , value) {
+                $.each(data, function (key, value) {
                     console.log(key + " : " + value);
 
                     if (value) {

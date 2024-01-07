@@ -1,15 +1,10 @@
 package Jafari.Mahdi.JimAcademy.controllers;
 
 import Jafari.Mahdi.JimAcademy.carriers.WebToast;
-import Jafari.Mahdi.JimAcademy.entities.Course;
-import Jafari.Mahdi.JimAcademy.entities.Student;
-import Jafari.Mahdi.JimAcademy.entities.Teacher;
-import Jafari.Mahdi.JimAcademy.entities.User;
-import Jafari.Mahdi.JimAcademy.repositories.CourseRepository;
-import Jafari.Mahdi.JimAcademy.repositories.StudentRepository;
-import Jafari.Mahdi.JimAcademy.repositories.TeacherRepository;
-import Jafari.Mahdi.JimAcademy.repositories.UserRepository;
+import Jafari.Mahdi.JimAcademy.entities.*;
+import Jafari.Mahdi.JimAcademy.repositories.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,16 +20,18 @@ import java.util.List;
 @Controller
 public class MainController {
 
+    final HomeworkRepository homeworkRepository;
     final UserRepository userRepository;
     final StudentRepository studentRepository;
     final TeacherRepository teacherRepository;
     final CourseRepository courseRepository;
 
-    public MainController(StudentRepository studentRepository, UserRepository userRepository, TeacherRepository teacherRepository, CourseRepository courseRepository) {
+    public MainController(StudentRepository studentRepository, UserRepository userRepository, TeacherRepository teacherRepository, CourseRepository courseRepository, HomeworkRepository homeworkRepository) {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.teacherRepository = teacherRepository;
         this.courseRepository = courseRepository;
+        this.homeworkRepository = homeworkRepository;
     }
 
     @GetMapping("/login")
@@ -142,6 +139,12 @@ public class MainController {
             Course cyber = new Course();
             cyber.setTeacher(drJamshidi);
             cyber.setInformation("آزمایشگاه سایبر فیزیک");
+            Homework homework = new Homework();
+            homework.setInformation("تمرین اول: خلاصه نویسی از جلسات اول تا سوم");
+            homework.setStartDate("یکشنبه - 1 بهمن 1402");
+            homework.setEndDate("پنجشنبه - 19 بهمن 1402");
+            homeworkRepository.save(homework);
+            cyber.setHomeworkList(Arrays.asList(homework));
             courseRepository.save(cyber);
         }
     }

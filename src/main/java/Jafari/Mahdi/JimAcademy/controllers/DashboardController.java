@@ -110,11 +110,11 @@ public class DashboardController {
             courseRepository.save(course);
 
         } catch (Exception e) {
-            map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ثبت این استاد به وجود آمده است"));
+            map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ثبت این کلاس به وجود آمده است"));
             attributes.addFlashAttribute("map", map);
             return new RedirectView("management");
         }
-        map.put("toast", new WebToast(WebToast.ToastType.CONFIRMATION_TYPE.getValue(), "استاد کلاس ثبت شد"));
+        map.put("toast", new WebToast(WebToast.ToastType.CONFIRMATION_TYPE.getValue(), " کلاس ثبت شد"));
         attributes.addFlashAttribute("map", map);
         return new RedirectView("/dashboard");
 
