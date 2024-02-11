@@ -9,12 +9,9 @@
     <title>[[${title}]]</title>
 </head>
 <body class="page">
-
-
 <main>
     <div class="block">
         <h1 style="font-family: Vazir">ثبت نام</h1>
-
         <form th:action="@{/signup}" th:object="${student}" method="post">
             <div class="form-group">
                 <div class="input-group">
@@ -59,16 +56,12 @@
 
         </form>
     </div>
-
     <div class="links">
         <p class="text-center">قبلا ثبت نام کرده اید؟ <a class="txt-brand" href="/login">وارد شوید</a></p>
     </div>
-
     <div th:if="${toast != null}">
         <div th:insert="~{fragments/webToast :: toast}"></div>
     </div>
-
-
 </main>
 </body>
 </html>

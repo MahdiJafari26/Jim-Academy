@@ -49,7 +49,8 @@ public class DashboardController {
     public Map<Integer, Boolean> checkIsClassActive() {
         Map<Integer, Boolean> map = new HashMap<>();
         for (Course course : courseRepository.findAll()) {
-            if (ClassRestController.classesStatusMap.get(course.getId()) != null && new Date().getTime() - ClassRestController.classesStatusMap.get(course.getId()).getTime() < 3000L) {
+            if (ClassRestController.classesStatusMap.get(course.getId()) != null
+                    && new Date().getTime() - ClassRestController.classesStatusMap.get(course.getId()).getTime() < 3000L) {
                 map.put(course.getId(), true);
             } else {
                 map.put(course.getId(), false);
@@ -124,7 +125,8 @@ public class DashboardController {
     public ModelAndView returnUserValidationModel(String title, String viewName, ModelMap map) {
         User sessionUser = ((User) session.getAttribute("currentUser"));
         if (sessionUser != null) for (User tmpUser : userRepository.findAll()) {
-            if (sessionUser.getId() == tmpUser.getId() && sessionUser.getUsername().equals(tmpUser.getUsername()) && sessionUser.getPassword().equals(tmpUser.getPassword())) {
+            if (sessionUser.getId() == tmpUser.getId() && sessionUser.getUsername().equals(tmpUser.getUsername())
+                    && sessionUser.getPassword().equals(tmpUser.getPassword())) {
                 map.put("title", title);
                 map.put("user", tmpUser);
                 map.put("courses", courseRepository.findAll());
