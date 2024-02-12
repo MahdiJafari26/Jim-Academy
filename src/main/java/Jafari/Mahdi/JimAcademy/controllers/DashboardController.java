@@ -67,9 +67,10 @@ public class DashboardController {
         List<User> userList = new LinkedList<>();
         for (User user : userRepository.findAll()) {
             for (Teacher teacher : teacherList) {
-                if (!user.getUsername().equals(teacher.getUsername())) {
-                    userList.add(user);
+                if (user.getUsername().equals(teacher.getUsername())) {
+                    continue;
                 }
+                userList.add(user);
             }
         }
         map.put("users", userList);

@@ -113,7 +113,6 @@ public class MainController {
 
 
         Teacher drJamshidi = new Teacher();
-        ;
         Boolean drJamshidiExist = false;
         for (Teacher tmpUser : teacherRepository.findAll()) {
             if (tmpUser.getUsername().equals("jamshidi")) {
