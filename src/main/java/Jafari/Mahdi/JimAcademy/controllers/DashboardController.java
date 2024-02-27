@@ -82,8 +82,8 @@ public class DashboardController {
         ModelMap map = new ModelMap();
         try {
             User user = userRepository.findById(userId).get();
-            Teacher teacher = (Teacher) user;
-            teacherRepository.save(teacher);
+//            Teacher teacher = (Teacher) user;
+//            teacherRepository.save(teacher);
         } catch (Exception e) {
             map.put("toast", new WebToast(WebToast.ToastType.ERROR_TYPE.getValue(), "مشکلی در ارتقای این کاربر به وجود آمده است"));
             attributes.addFlashAttribute("map", map);
